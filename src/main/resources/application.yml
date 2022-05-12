@@ -1,0 +1,130 @@
+spring:
+  profiles:
+    active: local
+  devtools:
+    livereload:
+      enabled: true
+  thymeleaf:
+    cache: false
+    check-template-location: true
+    mode: HTML
+    prefix: classpath:templates/
+    suffix: .html
+    encoding: UTF-8
+
+server:
+  servlet:
+    session:
+      tracking-modes: cookie
+  error:
+    whitelabel:
+      enabled: false
+
+logging:
+  config: classpath:logback.xml
+  level:
+    root: warn
+    com.atoncorp.davu.api.*: debug
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/aton-hp?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=false
+    username: root
+    password: 1234
+    hikari:
+      maximum-pool-size: 10
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    show-sql: true
+    generate-ddl: false
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
+
+server:
+  port: 8080
+  https: true
+  base-url: http://localhost:8080
+
+logging:
+  level:
+    org:
+      hibernate:
+        type: trace
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://daview-dev-db1.ceyebf7cnnhf.ap-northeast-2.rds.amazonaws.com:3306/davu?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=false
+    username: admin
+    password: Admin12345
+    hikari:
+      maximum-pool-size: 10
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    show-sql: true
+    generate-ddl: false
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 8080
+  https: true
+  base-url: http://dev.atoncorp.com
+
+logging:
+  level:
+    org:
+      hibernate:
+        type: trace
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://daview-prd-db1.ceyebf7cnnhf.ap-northeast-2.rds.amazonaws.com:3306/davu?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=false
+    username: admin
+    password: Admin12345
+    hikari:
+      maximum-pool-size: 20
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    show-sql: false
+    generate-ddl: false
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+
+server:
+  port: 8080
+  https: true
+  base-url: https://www.atoncorp.com
+
+logging:
+  level:
+    root: info
+    com.atoncorp.davu.api.*: debug
